@@ -180,4 +180,120 @@ public:
     virtual unsigned char* timestamp() = 0;
 };
 
+/*-----------------------------------------------------------------------------------------
+**									   Class Definition
+**-----------------------------------------------------------------------------------------
+*/
+/* <类描述> */
+/* 1)模块处理器基类 */
+/* 2) */
+class Processor
+{
+public:
+    /*.BH--------------------------------------------------------------------------------------
+    **
+    ** 函数名(Function Name): Processor
+    **
+    ** 描述(Description): 本函数实现Processor类构造函数
+    **
+    ** 输入参数(Input Parameter):
+    **		context , Context* 程序上下文
+    **		param , const string& 程序参数
+    **
+    ** 输出参数(Output Parameter):
+    **
+    ** 返回值(Return Value):
+    **
+    ** 设计注记(Design Annotation):
+    **
+    ** 更改历史(Modification History):
+    **		Inory , 2022年7月28日 创建本文件
+    **		$Log$
+    **
+    **.EH--------------------------------------------------------------------------------------
+    */
+    Processor(Context* context, const string& param)noexcept(false)
+    {
+        /* 判断参数有效性并初始化成员变量 */
+        if (NULL == context)
+        {
+            printf("Processor::Processor()--invalid 'context'.\n");
+            throw bad_alloc();
+        }
+        else {
+            _context = context;
+        }
+        _param = param;
+    }
+    /* END of Processor */
+
+    /*.BH--------------------------------------------------------------------------------------
+    **
+    ** 函数名(Function Name): ~Processor
+    **
+    ** 描述(Description): 本函数实现Processor类析构函数
+    **
+    ** 输入参数(Input Parameter):
+    **
+    ** 输出参数(Output Parameter):
+    **
+    ** 返回值(Return Value):
+    **
+    ** 设计注记(Design Annotation):
+    **
+    ** 更改历史(Modification History):
+    **		Inory , 2022年7月28日 创建本文件
+    **		$Log$
+    **
+    **.EH--------------------------------------------------------------------------------------
+    */
+    virtual ~Processor()
+    {
+    #ifdef DEBUG
+        printf("Processor::~Processor()\n");
+    #endif
+    }
+    /* END of ~Processor */
+
+    /* 模块初始化 */
+    virtual void init() = 0;
+    /* 模块事件处理函数 */
+    virtual void process(Event* event) = 0;
+
+    /*.BH--------------------------------------------------------------------------------------
+    **
+    ** 函数名(Function Name): subscribeEventIdList
+    **
+    ** 描述(Description): 本函数实现获取订阅事件ID列表
+    **
+    ** 输入参数(Input Parameter):
+    **
+    ** 输出参数(Output Parameter):
+    **
+    ** 返回值(Return Value):
+    **      _subscribeEventIdList , list 订阅事件ID列表
+    **
+    ** 设计注记(Design Annotation):
+    **
+    ** 更改历史(Modification History):
+    **		Inory , 2022年7月28日 创建本文件
+    **		$Log$
+    **
+    **.EH--------------------------------------------------------------------------------------
+    */
+    list<unsigned int>& subscribeEventIdList()
+    {
+        return _subscribeEventIdList;
+    }
+    /* END of subscribeEventIdList */
+
+protected:
+    /* 程序上下文 */
+    Context* _context;
+    /* 参数 */
+    string _param;
+    /* 订阅事件ID列表 */
+    list<unsigned int> _subscribeEventIdList;
+};
+
 #endif /* KERNELINTERFACE_H */
